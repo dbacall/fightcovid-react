@@ -21,15 +21,11 @@ class Login extends Component {
     myFirebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(
-        this.setState({
-          redirect: true,
-        }),
-        console.log("here", this.state.redirect)
+      .then(() => this.props.history.push("/"))
+      // (user) => {
+      // console.log("log in", this.props.history)
 
-        // (user) => {
-        // console.log("log in", this.props.history);
-      )
+      // .then(this.renderRedirect())
       .catch((err) => {
         console.log(err);
       });
@@ -52,17 +48,10 @@ class Login extends Component {
     this.props.logoutUser();
   };
 
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to="/" />;
-    }
-  };
-
   render() {
     return (
       <div>
-        <h2>Sign up</h2>
-        {this.renderRedirect()}
+        <h2>Log in</h2>
         <form>
           <input
             type="text"
@@ -78,7 +67,7 @@ class Login extends Component {
             id="password"
             onChange={this.handleChange}
           />
-          <input type="submit" name="Sign Up" onClick={this.handleSubmit} />
+          <input type="submit" name="Log in" onClick={this.handleSubmit} />
         </form>
         <Link to="/register">Register</Link>
       </div>

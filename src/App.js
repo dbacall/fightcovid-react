@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
 import myFirebase from "./firebase/firebase";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Register from "./components/Register";
@@ -13,6 +18,7 @@ class App extends Component {
     this.state = {
       user: {},
       userLoggedIn: false,
+      redirect: false,
     };
   }
   componentWillMount() {
@@ -21,19 +27,24 @@ class App extends Component {
   authListener() {
     myFirebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user, userLoggedIn: true });
+        this.setState({ user, userLoggedIn: true, redirect: true });
       } else {
-        this.setState({ user: null, userLoggedIn: false });
+        this.setState({ user: null, userLoggedIn: false, redirect: false });
       }
     });
   }
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
+  };
 
   render() {
     return (
       <Router>
         <div className="App">
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
+          {this.renderRedirect()}
           <Switch>
             <PrivateRoute
               exact
@@ -42,6 +53,8 @@ class App extends Component {
               user={this.state.user}
               userLoggedIn={this.state.userLoggedIn}
             />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
           </Switch>
         </div>
       </Router>
