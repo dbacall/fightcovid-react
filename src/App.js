@@ -5,24 +5,25 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Register from "./components/Register";
+import PrivateRoute from "./components/private-route/PrivateRoute";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {},
+      userLoggedIn: false,
     };
   }
-  componentDidMount() {
+  componentWillMount() {
     this.authListener();
   }
   authListener() {
     myFirebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user.email);
-        this.setState({ user });
+        this.setState({ user, userLoggedIn: true });
       } else {
-        this.setState({ user: null });
+        this.setState({ user: null, userLoggedIn: false });
       }
     });
   }
@@ -34,7 +35,13 @@ class App extends Component {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Switch>
-            <Route exact path="/" component={Home} />
+            <PrivateRoute
+              exact
+              path="/"
+              component={Home}
+              user={this.state.user}
+              userLoggedIn={this.state.userLoggedIn}
+            />
           </Switch>
         </div>
       </Router>

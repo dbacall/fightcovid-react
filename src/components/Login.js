@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import myFirebase from "../firebase/firebase";
+import { Link, Redirect } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      redirect: false,
     };
   }
 
@@ -19,9 +21,15 @@ class Login extends Component {
     myFirebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((user) => {
-        console.log("log in", user);
-      })
+      .then(
+        this.setState({
+          redirect: true,
+        }),
+        console.log("here", this.state.redirect)
+
+        // (user) => {
+        // console.log("log in", this.props.history);
+      )
       .catch((err) => {
         console.log(err);
       });
@@ -44,10 +52,17 @@ class Login extends Component {
     this.props.logoutUser();
   };
 
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
+  };
+
   render() {
     return (
       <div>
         <h2>Sign up</h2>
+        {this.renderRedirect()}
         <form>
           <input
             type="text"
@@ -65,8 +80,7 @@ class Login extends Component {
           />
           <input type="submit" name="Sign Up" onClick={this.handleSubmit} />
         </form>
-        <button onClick={this.signup}>Signup</button>
-        <button onClick={this.handleLogout}>Logout</button>
+        <Link to="/register">Register</Link>
       </div>
     );
   }
