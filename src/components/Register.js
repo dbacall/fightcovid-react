@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = {  }
+    this.state = {};
   }
-  render() { 
-    return (  );
+  render() {
+    return <h1>Register</h1>;
   }
 }
- 
+
 export default Register;

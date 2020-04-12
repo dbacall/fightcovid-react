@@ -4,6 +4,7 @@ import myFirebase from "./firebase/firebase";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import Register from "./components/Register";
 
 class App extends Component {
   constructor(props) {
@@ -27,7 +28,17 @@ class App extends Component {
   }
 
   render() {
-    return <div className="App">{this.state.user ? <Home /> : <Login />}</div>;
+    return (
+      <Router>
+        <div className="App">
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+          </Switch>
+        </div>
+      </Router>
+    );
   }
 }
 
