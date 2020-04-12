@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import myFirebase from "../firebase/firebase";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -8,7 +8,6 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      redirect: false,
     };
   }
 
@@ -16,7 +15,7 @@ class Login extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  handleSubmit = (e) => {
+  handleLogin = (e) => {
     e.preventDefault();
     myFirebase
       .auth()
@@ -29,23 +28,6 @@ class Login extends Component {
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  signup = (e) => {
-    e.preventDefault();
-    myFirebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((user) => {
-        console.log(user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  handleLogout = () => {
-    this.props.logoutUser();
   };
 
   render() {
@@ -67,7 +49,7 @@ class Login extends Component {
             id="password"
             onChange={this.handleChange}
           />
-          <input type="submit" name="Log in" onClick={this.handleSubmit} />
+          <input type="submit" name="Log in" onClick={this.handleLogin} />
         </form>
         <Link to="/register">Register</Link>
       </div>

@@ -11,10 +11,9 @@ class Home extends Component {
     myFirebase.auth().signOut();
   }
   render() {
-    console.log(this.props);
     return (
       <div>
-        <h1>You are logged in !!!</h1>
+        <h1>You are logged in {this.props.user.email}!!!</h1>
         <button onClick={this.logout}>Logout</button>
       </div>
     );
