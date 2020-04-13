@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import myFirebase from "../firebase/firebase";
-import {
-  WrapperLandbot,
-  WrapperIframe,
-  WrapperWhatsApp,
-} from "@frubana/react-landbot";
-// import styled from "styled-components";
+// import {
+//   WrapperLandbot,
+//   WrapperIframe,
+//   WrapperWhatsApp,
+// } from "@frubana/react-landbot";
+import styled from "styled-components";
+import Iframe from "react-iframe";
+import "./styling/Home.css";
 
 // const LandbotContainer = styled.div`
 //   width: 100%;
@@ -20,7 +22,7 @@ class Home extends Component {
   }
 
   // componentDidMount() {
-  //   this.landbot = new LandbotLivechat({
+  //   this.landbot = new window.LandbotFrameWidget({
   //     index: "https://landbot.io/u/H-421519-8FQ2CDN5JESSMYD0/index.html",
   //     container: ".landbot",
   //   });
@@ -37,9 +39,20 @@ class Home extends Component {
     return (
       <div>
         <h1>You are logged in {this.props.user.email}!!!</h1>
-        <button onClick={this.logout}>Logout</button>
+        <button className="logout-btn" onClick={this.logout}>
+          Logout
+        </button>
+        <Iframe
+          url="https://landbot.io/u/H-421519-8FQ2CDN5JESSMYD0/index.html"
+          width="450px"
+          height="450px"
+          id="myId"
+          className="landbot"
+          display="initial"
+          position="relative"
+        />
         {/* <LandbotContainer className="landbot" /> */}
-        <WrapperLandbot textLabel="Click to chat">
+        {/* <WrapperLandbot textLabel="Click to chat">
           <WrapperIframe
             name="unique_name"
             positionRigth="25%"
@@ -49,14 +62,14 @@ class Home extends Component {
             width="100%"
             image={"you-image"}
             iframe={"https://landbot.io/u/H-421519-8FQ2CDN5JESSMYD0/index.html"}
-          />
-          {/* <WrapperWhatsApp
+          /> */}
+        {/* <WrapperWhatsApp
             name="unique_name"
             color="blue"
             whatsapp={"link-to-WhatsApp"}
             image={"you-image"}
           /> */}
-        </WrapperLandbot>
+        {/* </WrapperLandbot> */}
       </div>
     );
   }
