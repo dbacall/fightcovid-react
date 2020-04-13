@@ -21,9 +21,11 @@ class App extends Component {
       redirect: false,
     };
   }
+
   componentWillMount() {
     this.authListener();
   }
+
   authListener() {
     myFirebase.auth().onAuthStateChanged((user) => {
       if (user) {

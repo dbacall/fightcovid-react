@@ -20,11 +20,7 @@ class Login extends Component {
     myFirebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.history.push("/"))
-      // (user) => {
-      // console.log("log in", this.props.history)
-
-      // .then(this.renderRedirect())
+      .then((user) => console.log(user))
       .catch((err) => {
         console.log(err);
       });
