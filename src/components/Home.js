@@ -5,7 +5,7 @@ import myFirebase from "../firebase/firebase";
 //   WrapperIframe,
 //   WrapperWhatsApp,
 // } from "@frubana/react-landbot";
-import styled from "styled-components";
+// import styled from "styled-components";
 import Iframe from "react-iframe";
 import "./styling/Home.css";
 
@@ -36,9 +36,10 @@ class Home extends Component {
     myFirebase.auth().signOut();
   }
   render() {
+    const { user } = this.props;
     return (
       <div>
-        <h1>You are logged in {this.props.user.email}!!!</h1>
+        <h1>You are logged in {user.email}!!!</h1>
         <button className="logout-btn" onClick={this.logout}>
           Logout
         </button>

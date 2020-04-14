@@ -15,30 +15,32 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 class App extends Component {
   constructor(props) {
     super(props);
+    this.authListener();
     this.state = {
       user: {},
-      userLoggedIn: false,
-      redirect: false,
+      userLoggedIn: "unknown",
     };
-  }
-
-  componentWillMount() {
-    this.authListener();
   }
 
   authListener() {
     myFirebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user, userLoggedIn: true, redirect: true });
+        this.setState({ user, userLoggedIn: true });
       } else {
-        this.setState({ user: null, userLoggedIn: false, redirect: false });
+        this.setState({ user: null, userLoggedIn: false });
       }
     });
   }
 
-  renderRedirect = () => {
-    if (this.state.redirect) {
+  renderRedirectToHome = () => {
+    if (this.state.userLoggedIn) {
       return <Redirect to="/" />;
+    }
+  };
+
+  renderRedirectToLogin = () => {
+    if (!this.state.userLoggedIn) {
+      return <Redirect to="/login" />;
     }
   };
 
@@ -46,7 +48,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          {this.renderRedirect()}
+          {this.renderRedirectToHome()}
           <Switch>
             <PrivateRoute
               exact
@@ -55,6 +57,18 @@ class App extends Component {
               user={this.state.user}
               userLoggedIn={this.state.userLoggedIn}
             />
+            {/* <Route
+              exact
+              path="/"
+              render={(props) => (
+                <Home
+                  {...props}
+                  user={this.state.user}
+                  renderRedirectToLogin={this.renderRedirectToLogin}
+                />
+              )}
+            /> */}
+
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
           </Switch>
