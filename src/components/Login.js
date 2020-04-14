@@ -19,14 +19,11 @@ class Login extends Component {
 
   handleLogin = (e) => {
     e.preventDefault();
-    const { errors, isValid } = validateLogin(
+    const inputsValid = this.validateInputs(
       this.state.email,
       this.state.password
     );
-    this.setState({
-      errors,
-    });
-    if (isValid) {
+    if (inputsValid) {
       myFirebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -35,6 +32,14 @@ class Login extends Component {
           console.log(err);
         });
     }
+  };
+
+  validateInputs = (email, password) => {
+    const { errors, isValid } = validateLogin(email, password);
+    this.setState({
+      errors,
+    });
+    return isValid;
   };
 
   render() {

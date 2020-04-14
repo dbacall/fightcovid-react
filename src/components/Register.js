@@ -19,14 +19,11 @@ class Register extends Component {
 
   handleRegistration = (e) => {
     e.preventDefault();
-    const { errors, isValid } = validateRegistration(
+    const inputsValid = this.validateInputs(
       this.state.email,
       this.state.password
     );
-    this.setState({
-      errors,
-    });
-    if (isValid) {
+    if (inputsValid) {
       myFirebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -37,6 +34,14 @@ class Register extends Component {
           console.log(err);
         });
     }
+  };
+
+  validateInputs = (email, password) => {
+    const { errors, isValid } = validateRegistration(email, password);
+    this.setState({
+      errors,
+    });
+    return isValid;
   };
 
   render() {
