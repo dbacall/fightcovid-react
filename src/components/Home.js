@@ -8,6 +8,7 @@ import myFirebase from "../firebase/firebase";
 // import styled from "styled-components";
 import Iframe from "react-iframe";
 import "./styling/Home.css";
+import { Link } from "react-router-dom";
 
 // const LandbotContainer = styled.div`
 //   width: 100%;
@@ -43,6 +44,7 @@ class Home extends Component {
         <button className="logout-btn" onClick={this.logout}>
           Logout
         </button>
+        <Link to="/profile">Profile</Link>
         <Iframe
           url="https://landbot.io/u/H-421519-8FQ2CDN5JESSMYD0/index.html"
           width="450px"

@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import Register from "./components/Register";
 import PrivateRoute from "./components/private-route/PrivateRoute";
+import Profile from "./components/Profile";
 
 class App extends Component {
   constructor(props) {
@@ -57,18 +58,13 @@ class App extends Component {
               user={this.state.user}
               userLoggedIn={this.state.userLoggedIn}
             />
-            {/* <Route
+            <PrivateRoute
               exact
-              path="/"
-              render={(props) => (
-                <Home
-                  {...props}
-                  user={this.state.user}
-                  renderRedirectToLogin={this.renderRedirectToLogin}
-                />
-              )}
-            /> */}
-
+              path="/profile"
+              component={Profile}
+              user={this.state.user}
+              userLoggedIn={this.state.userLoggedIn}
+            />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
           </Switch>
