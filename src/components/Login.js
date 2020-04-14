@@ -23,6 +23,9 @@ class Login extends Component {
       this.state.email,
       this.state.password
     );
+    this.setState({
+      errors,
+    });
     if (isValid) {
       myFirebase
         .auth()
@@ -31,10 +34,6 @@ class Login extends Component {
         .catch((err) => {
           console.log(err);
         });
-    } else {
-      this.setState({
-        errors,
-      });
     }
   };
 

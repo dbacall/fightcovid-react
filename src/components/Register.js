@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import myFirebase from "../firebase/firebase";
 import { Link } from "react-router-dom";
+import validateRegistration from "./validation/RegistrationValidation";
 
 class Register extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class Register extends Component {
     this.state = {
       email: "",
       password: "",
+      errors: {},
     };
   }
 
@@ -17,18 +19,28 @@ class Register extends Component {
 
   handleRegistration = (e) => {
     e.preventDefault();
-    myFirebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((user) => {
-        console.log(user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const { errors, isValid } = validateRegistration(
+      this.state.email,
+      this.state.password
+    );
+    this.setState({
+      errors,
+    });
+    if (isValid) {
+      myFirebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then((user) => {
+          console.log(user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <h2>Register</h2>
@@ -40,6 +52,7 @@ class Register extends Component {
             name="email"
             onChange={this.handleChange}
           />
+          <span className="">{errors.email}</span>
           <input
             name="password"
             label="Password"
@@ -47,6 +60,7 @@ class Register extends Component {
             id="password"
             onChange={this.handleChange}
           />
+          <span className="">{errors.password}</span>
           <input
             type="submit"
             name="Register"
