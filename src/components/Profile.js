@@ -20,6 +20,7 @@ class Profile extends Component {
     axios
       .get(PROXY_URL + URL, { headers })
       .then((response) => {
+        console.log(response.data.customers);
         this.setState({
           data: response.data.customers,
         });
@@ -45,7 +46,7 @@ class Profile extends Component {
         <h1>Profile</h1>
         <ul>
           {data.map((customer) => (
-            <li key={customer.name}>{customer.email}</li>
+            <li key={customer.name}>{customer.wellorunwell}</li>
           ))}
         </ul>
       </div>
